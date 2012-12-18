@@ -1,0 +1,46 @@
+{
+  "name": "grunt-generator",
+  "description": "Static site generator with handlebars and showdown.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/chuck/grunt-generator",
+  "author": {
+    "name": "Charles Lavery",
+    "email": "charles.lavery@gmail.com",
+    "url": "http://charleslavery.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chuck/grunt-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chuck/grunt-generator/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/chuck/grunt-generator/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-generator",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "jasmine-node spec"
+  },
+  "devDependencies": {
+    "jshint": "*",
+    "underscore": "*",
+    "grunt-exec": "*"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "dependencies": {
+    "underscore": "*",
+    "showdown": "*",
+    "handlebars": "*",
+    "grunt": ">=0.3.17"
+  }
+}
