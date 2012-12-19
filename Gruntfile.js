@@ -36,7 +36,7 @@ module.exports = function(grunt) {
     exec: {
       jasmine: {
         options: {
-          command: 'jasmine-node',
+          command: './node_modules/.bin/jasmine-node',
           args: [ 'spec' ]
         }
       }
