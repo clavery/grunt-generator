@@ -54,9 +54,6 @@ var Generator = function(grunt, _options) {
   this.options.pagesDir = this.options.pagesDir.replace(/\/*$/, '');
 };
 
-Generator.prototype.build = function() {
-};
-
 Generator.prototype.readPages = function() {
   var files = grunt.file.expandFiles(this.options.pagesDir + '/**/*'); 
   var validExtensions = _.keys(this.options.processors);
@@ -130,8 +127,21 @@ Generator.prototype.build = function() {
 
   _.keys(pages).forEach(function(pageName) {
     var page = pages[pageName];
-    var destFilename = options.dest + path.sep + page.name + '.' + options.buildExt;
-    grunt.file.write(destFilename, me.buildPage(page));
+    var filename = page.name + '.' + options.buildExt;
+    var destFilename = options.dest + path.sep + filename;
+    var builtPage = me.buildPage(page);
+
+    if(grunt.file.exists(destFilename)) {
+      var old = grunt.file.read(destFilename);
+      if(old === builtPage) {
+        grunt.log.warn('unchanged: ' + filename);
+      } else {
+        grunt.log.ok('changed: ' + filename);
+        grunt.file.write(destFilename, builtPage);
+      }
+    } else {
+      grunt.log.ok('new: ' + filename);
+    }
   });
 };
 
