@@ -34,6 +34,7 @@ function processHtml(input) {
  * @class Generator
  */
 var Generator = function(grunt, _options) {
+  var me = this;
   this.grunt = grunt;
   this.pages = null;
   this.options = _.extend({
@@ -43,7 +44,7 @@ var Generator = function(grunt, _options) {
     'templateExt': 'html',
     'defaultTemplate': 'index',
     'buildExt': 'html',
-    'templateDir': 'templates'
+    'templateDir': 'templates',
   }, _options);
 
   this.options.processors = _.extend({
@@ -52,6 +53,12 @@ var Generator = function(grunt, _options) {
   }, _options ? _options.processors : {});
 
   this.options.pagesDir = this.options.pagesDir.replace(/\/*$/, '');
+
+  if(this.options.handlebarsHelpers) {
+    _.keys(this.options.handlebarsHelpers).forEach(function(name) {
+      Handlebars.registerHelper(name, me.options.handlebarsHelpers[name]);  
+    });
+  }
 };
 
 Generator.prototype.readPages = function() {
@@ -104,7 +111,8 @@ Generator.prototype.buildPage = function(page) {
   var data = {
     'pages': this.pages,
     'name': page.name,
-    'page': page.settings
+    'page': page.settings,
+    'options': this.options
   };
 
   var template = Handlebars.compile(page.body);

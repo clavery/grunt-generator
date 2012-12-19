@@ -80,6 +80,10 @@ describe('generator', function() {
     expect(false).toBe(true);
   });
 
+  it('should allow custom handlebars helpers', function() {
+    expect(false).toBe(true);
+  });
+
   it('should remove deleted pages from the build directory', function() {
     expect(false).toBe(true);
   });
