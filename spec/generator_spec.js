@@ -1,3 +1,4 @@
+/*global xit*/
 'use strict';
 
 var grunt = require('grunt');
@@ -6,7 +7,7 @@ var Generator = require('../tasks/lib/generator').Generator;
 describe('generator', function() {
 
   var options = {
-    'src': __dirname + '/build',
+    'pagesDir': __dirname + '/pages',
     'dest': __dirname + '/build',
     'templateDir': __dirname + '/templates',
   };
@@ -47,7 +48,7 @@ describe('generator', function() {
     expect(generator.pages['testdir/test2'].settings['title']).toBe('test2 title');
 
     expect(generator.pages['test3']).toBeDefined();
-    expect(generator.pages['test3'].settings).toBe({});
+    expect(generator.pages['test3'].settings).toEqual({});
   });
 
   it('should build an individual page', function() {
@@ -58,12 +59,16 @@ describe('generator', function() {
 
     expect(result).toMatch(/<html>/m);
     expect(result).toMatch(/<title>test1 title<\/title>/m);
-    expect(result).toMatch(/this is a test/m);
+    expect(result).toMatch(/<p>this is a test<\/p>/m);
     expect(result).toMatch(/<\/html>/m);
+
+    page = generator.pages['test3'];
+    result = generator.buildPage(page); 
+    expect(result).toMatch(/<title>default title<\/title>/m);
   });
 
   it('should build all pages', function() {
-    expect(false).toBe(true);
+    generator.build();
   });
 
   it('should build new pages', function() {
@@ -75,6 +80,10 @@ describe('generator', function() {
   });
 
   it('should remove deleted pages from the build directory', function() {
+    expect(false).toBe(true);
+  });
+
+  it('should render metadata from other pages', function() {
     expect(false).toBe(true);
   });
 
