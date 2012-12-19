@@ -21,7 +21,10 @@ var Generator = function(grunt, _options) {
   this.options = _.extend({
     'src': 'pages',
     'dest': 'build/dev',
-    'settings': ''
+    'settings': '',
+    'templateExt': 'html',
+    'defaultTemplate': 'index',
+    'buildExt': 'html',
   }, _options);
 
   this.pages = [];

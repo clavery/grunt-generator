@@ -32,7 +32,9 @@
   "devDependencies": {
     "jshint": "*",
     "underscore": "*",
-    "grunt-exec": "*"
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-jshint": "~0.1.0",
+    "grunt-contrib-watch": "~0.1.4"
   },
   "keywords": [
     "gruntplugin"
@@ -41,6 +43,6 @@
     "underscore": "*",
     "showdown": "*",
     "handlebars": "*",
-    "grunt": ">=0.3.17"
+    "grunt": ">=0.4.0rc4"
   }
 }
