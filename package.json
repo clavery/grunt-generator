@@ -2,7 +2,7 @@
   "name": "grunt-generator",
   "description": "Static site generator with handlebars and showdown.",
   "version": "0.1.0",
-  "homepage": "https://github.com/chuck/grunt-generator",
+  "homepage": "https://github.com/clavery/grunt-generator",
   "author": {
     "name": "Charles Lavery",
     "email": "charles.lavery@gmail.com",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/chuck/grunt-generator.git"
+    "url": "git://github.com/clavery/grunt-generator.git"
   },
   "bugs": {
     "url": "https://github.com/chuck/grunt-generator/issues"
@@ -32,7 +32,6 @@
   "devDependencies": {
     "jshint": "*",
     "underscore": "*",
-    "grunt-contrib-clean": "*",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-watch": "~0.1.4"
   },
