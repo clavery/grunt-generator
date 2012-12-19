@@ -29,6 +29,7 @@ describe('generator', function() {
 
   it('should have default options', function() {
     expect(generator.options.defaultTemplate).toBe('index');
+    expect(generator.options.templateDir).toBe('templates');
     expect(generator.options.templateExt).toBe('html');
     expect(generator.options.processors.md).toBeDefined();
     expect(generator.options.processors.html).toBeDefined();

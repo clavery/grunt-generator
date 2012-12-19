@@ -9,6 +9,8 @@
  * Licensed under the MIT license.
  */
 
+var Generator = require('./lib/generator').Generator;
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -17,15 +19,8 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerMultiTask('generate', 'Generate a static site.', function() {
-
+  grunt.registerMultiTask('generator', 'Generate a static site.', function() {
+    var generator = new Generator(grunt, this.data.options);
+    generator.build();
   });
-
-  // ==========================================================================
-  // HELPERS
-  // ==========================================================================
-
-  grunt.registerHelper('generator', function() {
-  });
-
 };

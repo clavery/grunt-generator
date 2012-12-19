@@ -43,7 +43,7 @@ var Generator = function(grunt, _options) {
     'templateExt': 'html',
     'defaultTemplate': 'index',
     'buildExt': 'html',
-    'templatesDir': 'templates'
+    'templateDir': 'templates'
   }, _options);
 
   this.options.processors = _.extend({
