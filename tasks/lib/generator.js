@@ -11,9 +11,9 @@
 
 var Showdown = require('showdown');
 var Handlebars = require('handlebars');
-var _ = require('underscore');
 var grunt = require('grunt');
 var path = require('path');
+var _ = require('lodash');
 
 /*
  * run it through showdown
@@ -62,8 +62,8 @@ var Generator = function(grunt, _options) {
 };
 
 Generator.prototype.readPages = function() {
-  var files = grunt.file.expandFiles(this.options.pagesDir + '/**/*'); 
   var validExtensions = _.keys(this.options.processors);
+  var files = grunt.file.expandFiles(this.options.pagesDir + '/**/*'); 
   var pages = {};
   var me = this;
 

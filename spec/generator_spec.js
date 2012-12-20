@@ -29,7 +29,6 @@ describe('generator', function() {
 
   it('should have default options', function() {
     expect(generator.options.defaultTemplate).toBe('index');
-    expect(generator.options.templateDir).toBe('templates');
     expect(generator.options.templateExt).toBe('html');
     expect(generator.options.processors.md).toBeDefined();
     expect(generator.options.processors.html).toBeDefined();
@@ -72,27 +71,27 @@ describe('generator', function() {
     generator.build();
   });
 
-  it('should build new pages', function() {
+  xit('should build new pages', function() {
     expect(false).toBe(true);
   });
 
-  it('should build changed pages', function() {
+  xit('should build changed pages', function() {
     expect(false).toBe(true);
   });
 
-  it('should allow custom handlebars helpers', function() {
+  xit('should allow custom handlebars helpers', function() {
     expect(false).toBe(true);
   });
 
-  it('should remove deleted pages from the build directory', function() {
+  xit('should remove deleted pages from the build directory', function() {
     expect(false).toBe(true);
   });
 
-  it('should render metadata from other pages', function() {
+  xit('should render metadata from other pages', function() {
     expect(false).toBe(true);
   });
 
-  it('should generate a sitemap', function() {
+  xit('should generate a sitemap', function() {
     expect(false).toBe(true);
   });
 });

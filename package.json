@@ -34,7 +34,8 @@
     "underscore": "*",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-watch": "~0.1.4",
-    "jasmine-node": "~1.0.28"
+    "jasmine-node": "~1.0.28",
+    "lodash": "~1.0.0-rc.3"
   },
   "keywords": [
     "gruntplugin"
