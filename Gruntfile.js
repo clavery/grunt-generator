@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -35,37 +37,16 @@ module.exports = function(grunt) {
     },
     exec: {
       jasmine: {
-        options: {
-          command: './node_modules/.bin/jasmine-node',
-          args: [ 'spec' ]
-        }
+        cmd: 'node_modules' + path.sep + '.bin' + path.sep + 'jasmine-node spec'
       }
     }
   });
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-exec');
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'exec:jasmine']);
 
-  grunt.registerMultiTask('exec', 'execute external script', function() {
-    var options = this.options();
-    var cb = this.async(); 
-
-    grunt.verbose.writeflags(options, 'Options');
-
-    var child = grunt.util.spawn({
-      cmd: options.command,
-      args: options.args
-    }, function(err, result, code) {
-      if (code === 127) {
-        return grunt.warn('command not found');
-      }
-      cb();
-    });
-
-    child.stdout.pipe(process.stdout);
-    child.stderr.pipe(process.stderr);
-  });
 };
