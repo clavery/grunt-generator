@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "jshint": "*",
-    "grunt-contrib-jshint": "~0.1.0",
-    "grunt-contrib-watch": "~0.1.4",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
     "jasmine-node": "~1.0.28"
   },
   "keywords": [
@@ -41,7 +41,7 @@
   "dependencies": {
     "showdown": "*",
     "handlebars": "*",
-    "grunt": ">=0.4.0rc4",
+    "grunt": "~0.4.0",
     "lodash": "*"
   }
 }
