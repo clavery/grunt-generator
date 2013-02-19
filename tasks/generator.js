@@ -3,7 +3,7 @@
  *
  * Tasks definitions
  *
- * https://github.com/chuck/grunt-generator
+ * https://github.com/clavery/grunt-generator
  *
  * Copyright (c) 2012 Charles Lavery
  * Licensed under the MIT license.
