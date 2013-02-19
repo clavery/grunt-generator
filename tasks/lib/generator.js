@@ -149,6 +149,7 @@ Generator.prototype.build = function() {
       }
     } else {
       grunt.log.ok('new: ' + filename);
+      grunt.file.write(destFilename, builtPage);
     }
   });
 };
