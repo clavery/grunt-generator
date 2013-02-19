@@ -63,7 +63,7 @@ var Generator = function(grunt, _options) {
 
 Generator.prototype.readPages = function() {
   var validExtensions = _.keys(this.options.processors);
-  var files = grunt.file.expandFiles(this.options.pagesDir + '/**/*'); 
+  var files = grunt.file.expand(this.options.pagesDir + '/**/*'); 
   var pages = {};
   var me = this;
 
