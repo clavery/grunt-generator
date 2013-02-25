@@ -61,6 +61,18 @@ var Generator = function(grunt, _options) {
   }
 };
 
+Generator.prototype.buildPartials = function() {
+  var partials = grunt.file.expand(this.options.partialsGlob);
+  var me = this;
+  
+  partials.forEach(function(v, i) {
+     var contents = grunt.file.read(v);
+     var name = path.basename(v, path.extname(v));
+
+     Handlebars.registerPartial(name, contents);
+  });
+};
+
 Generator.prototype.readPages = function() {
   var validExtensions = _.keys(this.options.processors);
   var files = grunt.file.expand(this.options.pagesDir + '/**/*'); 
@@ -69,6 +81,15 @@ Generator.prototype.readPages = function() {
 
   files.forEach(function(v, i) {
     var ext = path.extname(v);
+
+    if(grunt.file.isDir(v)) {
+      return;
+    }
+
+    if(grunt.file.isMatch(me.options.partialsGlob, v)) {
+      return;
+    }
+
     if(validExtensions.indexOf(ext.substr(1)) === -1) {
       grunt.log.warn(v + ': not a valid extension, skipping');
       return;
@@ -78,6 +99,7 @@ Generator.prototype.readPages = function() {
     var parsed = contents.split(/^---$/m, 2);
     var frontMatter = null;
     var prefixLen = me.options.pagesDir.length;
+    //TODO use grunts setbase and node basename
     var filename = v.substr(prefixLen + 1, v.length - prefixLen - ext.length - 1);
 
     try {
@@ -105,6 +127,8 @@ Generator.prototype.readPages = function() {
   });
 
   this.pages = pages;
+
+  this.buildPartials();
 };
 
 Generator.prototype.buildPage = function(page) {

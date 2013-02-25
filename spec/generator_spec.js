@@ -10,6 +10,7 @@ describe('generator', function() {
     'pagesDir': __dirname + '/pages',
     'dest': __dirname + '/build',
     'templateDir': __dirname + '/templates',
+    'partialsGlob': __dirname + '/pages/partials/*.html'
   };
   var generator;
 
@@ -65,6 +66,15 @@ describe('generator', function() {
     page = generator.pages['test3'];
     result = generator.buildPage(page); 
     expect(result).toMatch(/<title>default title<\/title>/m);
+  });
+
+  it('should support partials', function() {
+    generator.readPages();
+
+    var page = generator.pages['test4'];
+    var result = generator.buildPage(page);
+
+    expect(result).toMatch(/this is a partial/m);
   });
 
   it('should build all pages', function() {

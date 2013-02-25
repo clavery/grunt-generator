@@ -1,0 +1,6 @@
+{
+    "Title": "Partials Test"
+}
+---
+
+{{> testPartial}}
