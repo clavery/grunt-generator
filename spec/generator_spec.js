@@ -3,14 +3,22 @@
 
 var grunt = require('grunt');
 var Generator = require('../tasks/lib/generator').Generator;
+var _ = require('lodash');
 
 describe('generator', function() {
+
+  var helpers = {
+    'test': function(s) {
+      return "test " + s;
+    }
+  };
 
   var options = {
     'pagesDir': __dirname + '/pages',
     'dest': __dirname + '/build',
     'templateDir': __dirname + '/templates',
-    'partialsGlob': __dirname + '/pages/partials/*.html'
+    'partialsGlob': __dirname + '/pages/partials/*.html',
+    'handlebarsHelpers': helpers
   };
   var generator;
 
@@ -77,30 +85,42 @@ describe('generator', function() {
     expect(result).toMatch(/this is a partial/m);
   });
 
+  it('should allow custom handlebars helpers', function() {
+    generator.readPages();
+    var page = generator.pages['helper_test'];
+    var result = generator.buildPage(page);
+
+    expect(result).toMatch(/This is a test of helpers/m);
+  });
+
   it('should build all pages', function() {
     generator.build();
+
+    var built = grunt.file.exists(__dirname + '/build/test3.html');
+    expect(built).toBe(true);
   });
 
-  xit('should build new pages', function() {
+  //TODO
+  xit('should handle empty/no templates', function() {
     expect(false).toBe(true);
   });
 
-  xit('should build changed pages', function() {
+  //TODO
+  xit('should allow custom output extensions', function() {
     expect(false).toBe(true);
   });
 
-  xit('should allow custom handlebars helpers', function() {
-    expect(false).toBe(true);
-  });
-
+  //TODO
   xit('should remove deleted pages from the build directory', function() {
     expect(false).toBe(true);
   });
 
+  //TODO
   xit('should render metadata from other pages', function() {
     expect(false).toBe(true);
   });
 
+  //TODO
   xit('should generate a sitemap', function() {
     expect(false).toBe(true);
   });
