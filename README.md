@@ -74,6 +74,8 @@ A pages own metadata is available as the `page` variable. In addition all other 
 ...
 ```
 
+Since all metadata is available to all pages (and their templates) at build time complex processing can be done using handlebars helpers such as navigation hierarchies, tagging/categories, etc.
+
 The templates in `templates/` will be used to render the final output and are also passed through handlebars.js. The templates are given a special variable `body` which is the rendered output of the current 'page'.
 
 Handlebars partials can be specified using the `partialsGlob` option. These will be available to all pages using their filename minus extension. Partials can be placed in the same directory as pages and will not be processed as unique pages.
