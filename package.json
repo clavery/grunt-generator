@@ -21,8 +21,7 @@
       "url": "https://github.com/clavery/grunt-generator/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
-  "bin": "bin/grunt-generator",
+  "main": "Gruntfile.js"
   "engines": {
     "node": "*"
   },
@@ -38,7 +37,10 @@
     "grunt-contrib-clean": "~0.4.0"
   },
   "keywords": [
-    "gruntplugin"
+    "grunt",
+    "markdown",
+    "handlebars",
+    "static"
   ],
   "dependencies": {
     "showdown": "*",
