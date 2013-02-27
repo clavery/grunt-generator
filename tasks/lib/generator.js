@@ -8,6 +8,8 @@
  */
 
 
+'use strict';
+
 var Showdown = require('showdown');
 var Handlebars = require('handlebars');
 var grunt = require('grunt');
@@ -33,8 +35,6 @@ function processHtml(input) {
  * @class Generator
  */
 var Generator = function(grunt, options, files) {
-  'use strict';
-
   var me = this;
   this.grunt = grunt;
   this.pages = [];
@@ -102,7 +102,7 @@ Generator.prototype.readPages = function() {
           frontMatter = JSON.parse(parsed.shift());
         }
       } catch(e) {
-        grunt.log.error(v + ': bad frontmatter');
+        grunt.log.error(filepath + ': bad frontmatter');
         return;
       }
 

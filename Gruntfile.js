@@ -3,6 +3,10 @@ var path = require('path');
 var helpers = {
   'test': function(s) {
     return "test " + s;
+  },
+  
+  'pageTitle': function(pageName) {
+    return (this.pages[pageName] ? this.pages[pageName].settings.title : "");
   }
 };
 
@@ -50,22 +54,26 @@ module.exports = function(grunt) {
     generator: {
       test: {
         files: [
-          { cwd: 'spec/gruntfiletest/pages', src: ['**/*'], dest: 'spec/gruntfiletest/build', ext: '.html' }
+          { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build', ext: '.html' }
         ],
         options: {
-          partialsGlob: 'spec/gruntfiletest/pages/partials/*.html',
-          templates: 'spec/gruntfiletest/templates',
+          partialsGlob: 'spec/pages/partials/*.html',
+          templates: 'spec/templates',
           handlebarsHelpers: helpers
         }
       }
+    },
+    clean: {
+      test: ['spec/build']
     }
   });
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-exec');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'exec:jasmine']);
+  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'exec:jasmine']);
 
 };

@@ -1,6 +1,0 @@
-{
-    "Title": "Partials Test"
-}
----
-
-{{> testPartial}}

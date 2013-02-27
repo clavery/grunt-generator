@@ -6,98 +6,47 @@ var Generator = require('../tasks/lib/generator');
 var _ = require('lodash');
 
 describe('generator', function() {
-
-  var helpers = {
-    'test': function(s) {
-      return "test " + s;
-    }
-  };
-
-  var options = {
-    'pagesDir': __dirname + '/pages',
-    'dest': __dirname + '/build',
-    'templateDir': __dirname + '/templates',
-    'partialsGlob': __dirname + '/pages/partials/*.html',
-    'handlebarsHelpers': helpers
-  };
-  var generator;
-
   beforeEach(function() {
-    grunt.file.mkdir(__dirname + '/build');
-    generator = new Generator(grunt, options);  
   });
 
   afterEach(function() {
-    grunt.file.delete(__dirname + '/build');
   });
 
-  it('should initialize', function() {
-    expect(generator).toBeDefined();
-    expect(generator.build).toBeDefined();
+  it('should build pages', function() {
+    var built = grunt.file.exists(__dirname + '/build/test3.html');
+
+    expect(built).toBe(true);
   });
 
-  it('should have default options', function() {
-    expect(generator.options.defaultTemplate).toBe('index');
-    expect(generator.options.templateExt).toBe('html');
-    expect(generator.options.processors.md).toBeDefined();
-    expect(generator.options.processors.html).toBeDefined();
-    expect(generator.options.buildExt).toBe('html');
-    expect(generator.pages).toBeNull();
-  });
+  it('should build page content', function() {
+    var test1 = grunt.file.read(__dirname + '/build/test1.html'),
+        test2 = grunt.file.read(__dirname + '/build/testdir/test2.html'),
+        test3 = grunt.file.read(__dirname + '/build/test3.html');
 
-  it('should parse pages for optional front matter', function() {
-    generator.readPages();
+    expect(test1).toMatch(/<html>/m);
+    expect(test1).toMatch(/<title>test1 title<\/title>/m);
+    expect(test1).toMatch(/<p>this is a test<\/p>/m);
+    expect(test1).toMatch(/<\/html>/m);
 
-    expect(generator.pages).not.toBeNull();
-
-    expect(generator.pages['test1']).toBeDefined();
-    expect(generator.pages['testdir/test2']).toBeDefined();
-
-    expect(generator.pages['test1'].settings['title']).toBe('test1 title');
-    expect(generator.pages['testdir/test2'].settings['title']).toBe('test2 title');
-
-    expect(generator.pages['test3']).toBeDefined();
-    expect(generator.pages['test3'].settings).toEqual({});
-  });
-
-  it('should build an individual page', function() {
-    generator.readPages();
-
-    var page = generator.pages['test1'];
-    var result = generator.buildPage(page); 
-
-    expect(result).toMatch(/<html>/m);
-    expect(result).toMatch(/<title>test1 title<\/title>/m);
-    expect(result).toMatch(/<p>this is a test<\/p>/m);
-    expect(result).toMatch(/<\/html>/m);
-
-    page = generator.pages['test3'];
-    result = generator.buildPage(page); 
-    expect(result).toMatch(/<title>default title<\/title>/m);
+    expect(test3).toMatch(/<title>default title<\/title>/m);
   });
 
   it('should support partials', function() {
-    generator.readPages();
+    var test4 = grunt.file.read(__dirname + '/build/test4.html');
 
-    var page = generator.pages['test4'];
-    var result = generator.buildPage(page);
-
-    expect(result).toMatch(/this is a partial/m);
+    expect(test4).toMatch(/this is a partial/m);
   });
 
   it('should allow custom handlebars helpers', function() {
-    generator.readPages();
-    var page = generator.pages['helper_test'];
-    var result = generator.buildPage(page);
+    var test5 = grunt.file.read(__dirname + '/build/helper_test.html');
 
-    expect(result).toMatch(/This is a test of helpers/m);
+    expect(test5).toMatch(/This is a test of helpers/m);
   });
 
-  it('should build all pages', function() {
-    generator.build();
+  it('should render metadata from other pages', function() {
+    var test6 = grunt.file.read(__dirname + '/build/metadata_test.html');
 
-    var built = grunt.file.exists(__dirname + '/build/test3.html');
-    expect(built).toBe(true);
+    expect(test6).toMatch(/The title is test1 title/m);
   });
 
   //TODO
@@ -107,16 +56,6 @@ describe('generator', function() {
 
   //TODO
   xit('should allow custom output extensions', function() {
-    expect(false).toBe(true);
-  });
-
-  //TODO
-  xit('should remove deleted pages from the build directory', function() {
-    expect(false).toBe(true);
-  });
-
-  //TODO
-  xit('should render metadata from other pages', function() {
     expect(false).toBe(true);
   });
 

@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     var options = this.options({
       'templateExt': 'html',
       'defaultTemplate': 'index',
-      'templates': 'templates',
+      'templates': 'templates'
     });
     var generator = new Generator(grunt, options, this.files);
     generator.build();
