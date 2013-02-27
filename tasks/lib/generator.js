@@ -3,11 +3,10 @@
  *
  * https://github.com/clavery/grunt-generator
  *
- * Copyright (c) 2012 Charles Lavery
+ * Copyright (c) 2013 Charles Lavery
  * Licensed under the MIT license.
  */
 
-'use strict';
 
 var Showdown = require('showdown');
 var Handlebars = require('handlebars');
@@ -16,7 +15,7 @@ var path = require('path');
 var _ = require('lodash');
 
 /*
- * run it through showdown
+ * Markdown Processor
  */
 var converter = new Showdown.converter();
 function processMarkdown(input) {
@@ -24,7 +23,7 @@ function processMarkdown(input) {
 }
 
 /*
- * nothing to process
+ * HTML Processor (ie. noop)
  */
 function processHtml(input) {
   return input; 
@@ -33,31 +32,23 @@ function processHtml(input) {
 /**
  * @class Generator
  */
-var Generator = function(grunt, _options, files) {
+var Generator = function(grunt, options, files) {
+  'use strict';
+
   var me = this;
   this.grunt = grunt;
-  this.pages = null;
-  this.options = _.extend({
-    'pagesDir': 'pages',
-    'dest': 'build',
-    'settings': '',
-    'templateExt': 'html',
-    'defaultTemplate': 'index',
-    'buildExt': 'html',
-    'templates': 'templates',
-  }, _options);
+  this.pages = [];
+  this.options = options;
   this.files = files;
 
   this.options.processors = _.extend({
     'md': processMarkdown,
     'html': processHtml
-  }, _options.processors ? _options.processors : {});
-
-  this.options.pagesDir = this.options.pagesDir.replace(/\/*$/, '');
+  }, this.options.processors);
 
   if(this.options.handlebarsHelpers) {
-    _.keys(this.options.handlebarsHelpers).forEach(function(name) {
-      Handlebars.registerHelper(name, me.options.handlebarsHelpers[name]);  
+    _.forEach(this.options.handlebarsHelpers, function(helper, helperName) {
+      Handlebars.registerHelper(helperName, helper);  
     });
   }
 
@@ -104,7 +95,7 @@ Generator.prototype.readPages = function() {
       var frontMatter = null;
       var extension = path.extname(filepath);
 
-      var filename = filepath.substr(0, filepath.length - extension.length);
+      var pageName = filepath.substr(0, filepath.length - extension.length);
 
       try {
         if(parsed.length === 2) {
@@ -119,27 +110,29 @@ Generator.prototype.readPages = function() {
 
       var metadata = {};
       metadata.body = body;
-      metadata.name = filename;
+      metadata.name = pageName;
       metadata.ext = path.extname(fullpath).substr(1);
+      metadata.dest = filespec.dest;
+      metadata.buildExt = filespec.ext ? filespec.ext : ".html";
       metadata.settings = {};
 
       if(frontMatter) {
         metadata.settings = frontMatter;
       }
 
-      pages[filename] = metadata;
+      pages[pageName] = metadata;
     });
      
   });
 
-  this.pages = pages;
+  this.pages.push(pages);
 
   this.buildPartials();
 };
 
-Generator.prototype.buildPage = function(page) {
+Generator.prototype.buildPage = function(page, pages) {
   var data = {
-    'pages': this.pages,
+    'pages': pages,
     'name': page.name,
     'page': page.settings,
     'options': this.options
@@ -150,7 +143,9 @@ Generator.prototype.buildPage = function(page) {
 
   data.body = this.options.processors[page.ext](result);
 
-  var defaultTemplate = grunt.file.read([this.options.templates,this.options.defaultTemplate].join(path.sep) + '.' + this.options.templateExt);
+  var defaultTemplate = grunt.file.read(
+    path.join(this.options.templates,this.options.defaultTemplate + '.' + this.options.templateExt)
+  );
   var tmpl = Handlebars.compile(defaultTemplate);
 
   return tmpl(data);
@@ -163,24 +158,25 @@ Generator.prototype.build = function() {
   var pages = this.pages;
   var me = this;
 
-  _.keys(pages).forEach(function(pageName) {
-    var page = pages[pageName];
-    var filename = page.name + '.' + options.buildExt;
-    var destFilename = options.dest + path.sep + filename;
-    var builtPage = me.buildPage(page);
+  pages.forEach(function(pageSet) {
+    _.forEach(pageSet, function(page) {
+      var filename = page.name + page.buildExt;
+      var destFilename = path.join(page.dest, filename);
+      var builtPage = me.buildPage(page, pageSet);
 
-    if(grunt.file.exists(destFilename)) {
-      var old = grunt.file.read(destFilename);
-      if(old === builtPage) {
-        grunt.log.warn('unchanged: ' + filename);
+      if(grunt.file.exists(destFilename)) {
+        var old = grunt.file.read(destFilename);
+        if(old === builtPage) {
+          grunt.log.warn('unchanged: ' + filename);
+        } else {
+          grunt.log.ok('changed: ' + filename);
+          grunt.file.write(destFilename, builtPage);
+        }
       } else {
-        grunt.log.ok('changed: ' + filename);
+        grunt.log.ok('new: ' + filename);
         grunt.file.write(destFilename, builtPage);
       }
-    } else {
-      grunt.log.ok('new: ' + filename);
-      grunt.file.write(destFilename, builtPage);
-    }
+    });
   });
 };
 

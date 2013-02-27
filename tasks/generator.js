@@ -20,7 +20,12 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   grunt.registerMultiTask('generator', 'Generate a static site.', function() {
-    var generator = new Generator(grunt, this.data.options, this.files);
+    var options = this.options({
+      'templateExt': 'html',
+      'defaultTemplate': 'index',
+      'templates': 'templates',
+    });
+    var generator = new Generator(grunt, options, this.files);
     generator.build();
   });
 };
