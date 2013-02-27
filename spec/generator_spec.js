@@ -34,7 +34,7 @@ describe('generator', function() {
   it('should support partials', function() {
     var test4 = grunt.file.read(__dirname + '/build/test4.html');
 
-    expect(test4).toMatch(/this is a partial/m);
+    expect(test4).toMatch(/this is a partial \(Partials Test\)/m);
   });
 
   it('should allow custom handlebars helpers', function() {
