@@ -114,10 +114,10 @@ Generator.prototype.readPages = function() {
       metadata.ext = path.extname(fullpath).substr(1);
       metadata.dest = filespec.dest;
       metadata.buildExt = filespec.ext ? filespec.ext : ".html";
-      metadata.settings = {};
 
+      metadata.metadata = {};
       if(frontMatter) {
-        metadata.settings = frontMatter;
+        metadata.metadata = frontMatter;
       }
 
       pages[pageName] = metadata;
@@ -131,10 +131,15 @@ Generator.prototype.readPages = function() {
 };
 
 Generator.prototype.buildPage = function(page, pages) {
+  var viewPages = _.reduce(pages, function(viewPages, v, k) {
+    viewPages[k] = v.metadata;
+    return viewPages; 
+  }, {});
+
   var data = {
-    'pages': pages,
+    'pages': viewPages,
     'name': page.name,
-    'page': page.settings,
+    'page': page.metadata,
     'options': this.options
   };
 

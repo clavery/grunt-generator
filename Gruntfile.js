@@ -6,7 +6,7 @@ var helpers = {
   },
   
   'pageTitle': function(pageName) {
-    return (this.pages[pageName] ? this.pages[pageName].settings.title : "");
+    return (this.pages[pageName] ? this.pages[pageName].title : "");
   }
 };
 

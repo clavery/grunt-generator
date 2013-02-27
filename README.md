@@ -61,14 +61,14 @@ grunt-generator will build HTML and markdown pages in the `pages/` directory. Ou
 ...
 ```
 
-A pages own metadata is available as the `page` variable. In addition all other pages can be accessed using the `pages` object available to all pages. Using the above example: if the page is located at `dir1/test1.html` then it's title can be accessed using a handlebars helper like so:
+A pages own metadata is available as the `page` variable. In addition all other pages can be accessed using the `pages` collection available to all pages. Using the above example: if the page is located at `dir1/test1.html` then it's title can be accessed using a handlebars helper like so:
 
 ```javascript
 ...
 
 // example: {{ pageTitle 'dir1/test1' }}
 'pageTitle': function(pageName) {
-    return (this.pages[pageName] ? this.pages[pageName].settings.title : "");
+    return (this.pages[pageName] ? this.pages[pageName].title : "");
 }
 
 ...
