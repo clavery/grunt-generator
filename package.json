@@ -1,7 +1,7 @@
 {
   "name": "grunt-generator",
   "description": "Static site generator with handlebars and showdown.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/clavery/grunt-generator",
   "author": {
     "name": "Charles Lavery",
