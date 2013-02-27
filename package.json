@@ -21,7 +21,7 @@
       "url": "https://github.com/clavery/grunt-generator/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "Gruntfile.js"
+  "main": "Gruntfile.js",
   "engines": {
     "node": "*"
   },
