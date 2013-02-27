@@ -2,7 +2,7 @@
 'use strict';
 
 var grunt = require('grunt');
-var Generator = require('../tasks/lib/generator').Generator;
+var Generator = require('../tasks/lib/generator');
 var _ = require('lodash');
 
 describe('generator', function() {

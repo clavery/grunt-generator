@@ -1,5 +1,11 @@
 var path = require('path');
 
+var helpers = {
+  'test': function(s) {
+    return "test " + s;
+  }
+};
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -39,6 +45,18 @@ module.exports = function(grunt) {
     exec: {
       jasmine: {
         cmd: 'node_modules' + path.sep + '.bin' + path.sep + 'jasmine-node spec'
+      }
+    },
+    generator: {
+      test: {
+        files: [
+          { cwd: 'spec/gruntfiletest/pages', src: ['**/*'], dest: 'spec/gruntfiletest/build', ext: '.html' }
+        ],
+        options: {
+          partialsGlob: 'spec/gruntfiletest/pages/partials/*.html',
+          templates: 'spec/gruntfiletest/templates',
+          handlebarsHelpers: helpers
+        }
       }
     }
   });

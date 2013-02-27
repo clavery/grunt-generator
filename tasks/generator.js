@@ -9,7 +9,7 @@
  * Licensed under the MIT license.
  */
 
-var Generator = require('./lib/generator').Generator;
+var Generator = require('./lib/generator');
 
 module.exports = function(grunt) {
   'use strict';
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   grunt.registerMultiTask('generator', 'Generate a static site.', function() {
-    var generator = new Generator(grunt, this.data.options);
+    var generator = new Generator(grunt, this.data.options, this.files);
     generator.build();
   });
 };

@@ -33,7 +33,7 @@ function processHtml(input) {
 /**
  * @class Generator
  */
-var Generator = function(grunt, _options) {
+var Generator = function(grunt, _options, files) {
   var me = this;
   this.grunt = grunt;
   this.pages = null;
@@ -44,8 +44,9 @@ var Generator = function(grunt, _options) {
     'templateExt': 'html',
     'defaultTemplate': 'index',
     'buildExt': 'html',
-    'templateDir': 'templates',
+    'templates': 'templates',
   }, _options);
+  this.files = files;
 
   this.options.processors = _.extend({
     'md': processMarkdown,
@@ -77,55 +78,58 @@ Generator.prototype.buildPartials = function() {
 
 Generator.prototype.readPages = function() {
   var validExtensions = _.keys(this.options.processors);
-  var files = grunt.file.expand(this.options.pagesDir + '/**/*'); 
+  var files = this.files;
   var pages = {};
   var me = this;
 
-  files.forEach(function(v, i) {
-    var ext = path.extname(v);
+  files.forEach(function(filespec, i) {
+    var contents = filespec.src.filter(function(filepath) {
+      var fullpath = path.join(filespec.cwd, filepath);
 
-    if(grunt.file.isDir(v)) {
-      return;
-    }
-
-    if(grunt.file.isMatch(me.options.partialsGlob, v)) {
-      return;
-    }
-
-    if(validExtensions.indexOf(ext.substr(1)) === -1) {
-      grunt.log.warn(v + ': not a valid extension, skipping');
-      return;
-    }
-
-    var contents = grunt.file.read(v);
-    var parsed = contents.split(/^---$/m, 2);
-    var frontMatter = null;
-    var prefixLen = me.options.pagesDir.length;
-    //TODO use grunts setbase and node basename
-    var filename = v.substr(prefixLen + 1, v.length - prefixLen - ext.length - 1);
-
-    try {
-      if(parsed.length === 2) {
-        frontMatter = JSON.parse(parsed.shift());
+      if (!grunt.file.exists(fullpath) ||
+          grunt.file.isDir(fullpath) ||
+          grunt.file.isMatch(me.options.partialsGlob, fullpath)) {
+        grunt.verbose.writeln(fullpath + " not a valid page");
+        return false;
+      } else if(validExtensions.indexOf(path.extname(fullpath).substr(1)) === -1) {
+        grunt.verbose.writeln(fullpath + ': not a valid extension, skipping');
+        return false;  
+      } else {
+        return true;
       }
-    } catch(e) {
-      grunt.log.error(v + ': bad frontmatter');
-      return;
-    }
+    }).map(function(filepath) {
+      var fullpath = path.join(filespec.cwd, filepath);
+      var fileContents = grunt.file.read(fullpath);
+      var parsed = fileContents.split(/^---$/m, 2);
+      var frontMatter = null;
+      var extension = path.extname(filepath);
 
-    var body = parsed.shift();
+      var filename = filepath.substr(0, filepath.length - extension.length);
 
-    var d = {};
-    d.body = body;
-    d.name = filename;
-    d.ext = ext.substr(1);
-    d.settings = {};
+      try {
+        if(parsed.length === 2) {
+          frontMatter = JSON.parse(parsed.shift());
+        }
+      } catch(e) {
+        grunt.log.error(v + ': bad frontmatter');
+        return;
+      }
 
-    if(frontMatter) {
-      d.settings = frontMatter;
-    }
+      var body = parsed.shift();
 
-    pages[filename] = d;
+      var metadata = {};
+      metadata.body = body;
+      metadata.name = filename;
+      metadata.ext = path.extname(fullpath).substr(1);
+      metadata.settings = {};
+
+      if(frontMatter) {
+        metadata.settings = frontMatter;
+      }
+
+      pages[filename] = metadata;
+    });
+     
   });
 
   this.pages = pages;
@@ -146,7 +150,7 @@ Generator.prototype.buildPage = function(page) {
 
   data.body = this.options.processors[page.ext](result);
 
-  var defaultTemplate = grunt.file.read([this.options.templateDir,this.options.defaultTemplate].join(path.sep) + '.' + this.options.templateExt);
+  var defaultTemplate = grunt.file.read([this.options.templates,this.options.defaultTemplate].join(path.sep) + '.' + this.options.templateExt);
   var tmpl = Handlebars.compile(defaultTemplate);
 
   return tmpl(data);
@@ -180,4 +184,4 @@ Generator.prototype.build = function() {
   });
 };
 
-exports.Generator = Generator;
+module.exports = Generator;
