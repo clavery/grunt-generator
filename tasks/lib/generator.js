@@ -50,7 +50,7 @@ var Generator = function(grunt, _options) {
   this.options.processors = _.extend({
     'md': processMarkdown,
     'html': processHtml
-  }, _options ? _options.processors : {});
+  }, _options.processors ? _options.processors : {});
 
   this.options.pagesDir = this.options.pagesDir.replace(/\/*$/, '');
 
@@ -59,6 +59,8 @@ var Generator = function(grunt, _options) {
       Handlebars.registerHelper(name, me.options.handlebarsHelpers[name]);  
     });
   }
+
+  return this;
 };
 
 Generator.prototype.buildPartials = function() {

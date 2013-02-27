@@ -5,7 +5,7 @@
  *
  * https://github.com/clavery/grunt-generator
  *
- * Copyright (c) 2012 Charles Lavery
+ * Copyright (c) 2013 Charles Lavery
  * Licensed under the MIT license.
  */
 
