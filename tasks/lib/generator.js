@@ -110,9 +110,10 @@ Generator.prototype.readPages = function() {
 
       var metadata = {};
       metadata.body = body;
-      metadata.name = pageName;
+      metadata.name = pageName.replace(/\/index$/, '');
       metadata.ext = path.extname(fullpath).substr(1);
       metadata.dest = filespec.dest;
+      metadata.destName = pageName;
       metadata.buildExt = filespec.ext ? filespec.ext : ".html";
 
       metadata.metadata = {};
@@ -132,7 +133,9 @@ Generator.prototype.readPages = function() {
 
 Generator.prototype.buildPage = function(page, pages) {
   var viewPages = _.reduce(pages, function(viewPages, v, k) {
-    viewPages[k] = v.metadata;
+    viewPages[k] = _.extend(v.metadata, {
+      'name': v.name
+    });
     return viewPages; 
   }, {});
 
@@ -165,7 +168,7 @@ Generator.prototype.build = function() {
 
   pages.forEach(function(pageSet) {
     _.forEach(pageSet, function(page) {
-      var filename = page.name + page.buildExt;
+      var filename = page.destName + page.buildExt;
       var destFilename = path.join(page.dest, filename);
       var builtPage = me.buildPage(page, pageSet);
 
