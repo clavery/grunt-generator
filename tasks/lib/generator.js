@@ -43,7 +43,8 @@ var Generator = function(grunt, options, files) {
 
   this.options.processors = _.extend({
     'md': processMarkdown,
-    'html': processHtml
+    'html': processHtml,
+    'partialsGlob': ''
   }, this.options.processors);
 
   if(this.options.handlebarsHelpers) {
@@ -56,15 +57,17 @@ var Generator = function(grunt, options, files) {
 };
 
 Generator.prototype.buildPartials = function() {
-  var partials = grunt.file.expand(this.options.partialsGlob);
-  var me = this;
-  
-  partials.forEach(function(v, i) {
-     var contents = grunt.file.read(v);
-     var name = path.basename(v, path.extname(v));
+  if(this.options.partialsGlob && this.options.partialsGlob !== '') {
+    var partials = grunt.file.expand(this.options.partialsGlob);
+    var me = this;
+    
+    partials.forEach(function(v, i) {
+       var contents = grunt.file.read(v);
+       var name = path.basename(v, path.extname(v));
 
-     Handlebars.registerPartial(name, contents);
-  });
+       Handlebars.registerPartial(name, contents);
+    });
+  }
 };
 
 Generator.prototype.readPages = function() {
