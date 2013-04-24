@@ -49,6 +49,12 @@ describe('generator', function() {
     expect(test6).toMatch(/The title is test1 title/m);
   });
 
+  it('should allow access to the grunt configuration', function() {
+    var test7 = grunt.file.read(__dirname + '/build/gruntconfig_test.html');
+
+    expect(test7).toMatch(/gruntconfigvalue/m);
+  });
+
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);

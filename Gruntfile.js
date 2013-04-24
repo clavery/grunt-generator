@@ -15,6 +15,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    meta: {
+      gruntconfigkey: "gruntconfigvalue"
+    },
     watch: {
       files: ['Gruntfile.js', 'tasks/**/*.js', 'spec/**/*.js'],
       tasks: 'default'

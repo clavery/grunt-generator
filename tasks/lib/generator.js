@@ -53,6 +53,8 @@ var Generator = function(grunt, options, files) {
     });
   }
 
+  this.options.grunt = grunt;
+  this.options.gruntConfig = grunt.config.data;
   return this;
 };
 
