@@ -76,7 +76,17 @@ A pages own metadata is available as the `page` variable. In addition all other 
 
 Since all metadata is available to all pages (and their templates) at build time complex processing can be done using handlebars helpers such as navigation hierarchies, tagging/categories, etc.
 
-The templates in `templates/` will be used to render the final output and are also passed through handlebars.js. The templates are given a special variable `body` which is the rendered output of the current 'page'.
+The templates in `templates/` will be used to render the final output and are also passed through handlebars.js. The templates are given a special variable `body` which is the rendered output of the current 'page'. To specify a non-default template for a page use the `template` metadata. The following will render using alternate.html as the template instead of the default (ie. index.html):
+
+```javascript
+{
+  "title": "Test title",
+  "template" : "alternate"
+}
+---
+
+<div class....
+```
 
 Handlebars partials can be specified using the `partialsGlob` option. These will be available to all pages using their filename minus extension. Partials can be placed in the same directory as pages and will not be processed as unique pages.
 
@@ -87,6 +97,8 @@ See the `spec/pages` and `spec/templates` directory for a complete example.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+0.2.6 - added support for overriding template name in pages
+
 0.2.5 - added grunt and gruntConfig objects to options to allow access to grunt configuration in templates/pages
 
 0.2.2 - fix bug with partials
