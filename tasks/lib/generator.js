@@ -156,10 +156,12 @@ Generator.prototype.buildPage = function(page, pages) {
 
   data.body = this.options.processors[page.ext](result);
 
-  var defaultTemplate = grunt.file.read(
-    path.join(this.options.templates,this.options.defaultTemplate + '.' + this.options.templateExt)
+  var templateName = page.metadata.template ? page.metadata.template : this.options.defaultTemplate;
+
+  var masterTemplate = grunt.file.read(
+    path.join(this.options.templates, templateName + '.' + this.options.templateExt)
   );
-  var tmpl = Handlebars.compile(defaultTemplate);
+  var tmpl = Handlebars.compile(masterTemplate);
 
   return tmpl(data);
 };

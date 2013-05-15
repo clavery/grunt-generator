@@ -55,6 +55,12 @@ describe('generator', function() {
     expect(test7).toMatch(/gruntconfigvalue/m);
   });
 
+  it('should allow pages to specify a non-default template', function() {
+    var test = grunt.file.read(__dirname + '/build/custom_template_test.html');
+
+    expect(test).toMatch(/ALTERNATE TEMPLATE/m);
+  });
+
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);
