@@ -32,8 +32,8 @@
     "jshint": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-watch": "*",
-    "jasmine-node": "~1.0.28",
-    "grunt-exec": "~0.4.0",
+    "jasmine-node": "*",
+    "grunt-exec": "*",
     "grunt-contrib-clean": "~0.4.0"
   },
   "keywords": [
