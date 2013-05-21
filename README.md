@@ -97,6 +97,7 @@ See the `spec/pages` and `spec/templates` directory for a complete example.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+
 0.2.6 - added support for overriding template name in pages
 
 0.2.5 - added grunt and gruntConfig objects to options to allow access to grunt configuration in templates/pages
