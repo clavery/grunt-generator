@@ -45,7 +45,7 @@
   "dependencies": {
     "showdown": "*",
     "handlebars": "*",
-    "grunt": "~0.4.0",
+    "grunt": "~0.4.1",
     "lodash": "*"
   }
 }
