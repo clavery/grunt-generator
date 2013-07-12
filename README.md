@@ -76,7 +76,7 @@ A pages own metadata is available as the `page` variable. In addition all other 
 
 Since all metadata is available to all pages (and their templates) at build time complex processing can be done using handlebars helpers such as navigation hierarchies, tagging/categories, etc.
 
-The templates in `templates/` will be used to render the final output and are also passed through handlebars.js. The templates are given a special variable `body` which is the rendered output of the current 'page'. To specify a non-default template for a page use the `template` metadata. The following will render using alternate.html as the template instead of the default (ie. index.html):
+The templates in `templates/` will be used to render the final output and are also passed through handlebars.js. The templates are given a special variable `body` which is the rendered output of the current 'page' (**Note**: Make sure you use the "triple-stash" expression for `body`, so Handlebars doesn't escape the HTML: `{{{ body }}}`). To specify a non-default template for a page use the `template` metadata. The following will render using alternate.html as the template instead of the default (ie. index.html):
 
 ```javascript
 {
