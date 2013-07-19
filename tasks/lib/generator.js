@@ -182,7 +182,7 @@ Generator.prototype.build = function() {
       if(grunt.file.exists(destFilename)) {
         var old = grunt.file.read(destFilename);
         if(old === builtPage) {
-          grunt.log.warn('unchanged: ' + filename);
+          grunt.verbose.warn('unchanged: ' + filename);
         } else {
           grunt.log.ok('changed: ' + filename);
           grunt.file.write(destFilename, builtPage);

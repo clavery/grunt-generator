@@ -98,6 +98,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+0.2.8 - less spammy output
+
 0.2.7 - update grunt version
 
 0.2.6 - added support for overriding template name in pages
