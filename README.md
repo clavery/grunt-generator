@@ -142,7 +142,7 @@ Custom template functions must return the rendered template as a string or a pro
 ...
 ```
 
-[q][https://github.com/kriskowal/q/]
+[q]: [https://github.com/kriskowal/q/]
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
