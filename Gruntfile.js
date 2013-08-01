@@ -1,12 +1,18 @@
 var path = require('path');
 
-var helpers = {
+var handlebarsHelpers = {
   'test': function(s) {
     return "test " + s;
   },
   
   'pageTitle': function(pageName) {
     return (this.pages[pageName] ? this.pages[pageName].title : "");
+  }
+};
+
+var dustHelpers = {
+  'test': function(chunk, context, bodies, params) {
+    return chunk.write('test helper');
   }
 };
 
@@ -61,17 +67,17 @@ module.exports = function(grunt) {
         options: {
           partialsGlob: 'spec/pages/partials/*.html',
           templates: 'spec/templates',
-          handlebarsHelpers: helpers
+          helpers: handlebarsHelpers
         }
       },
       dustjs: {
         files: [
-          { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build_dust', ext: '.html' }
+          { cwd: 'spec/dust_pages', src: ['**/*'], dest: 'spec/dust_build', ext: '.html' }
         ],
         options: {
-          partialsGlob: 'spec/pages/partials/*.html',
-          templates: 'spec/templates_dust',
-          templateEngine: 'dust'
+          templates: 'spec/dust_templates',
+          templateEngine: 'dust',
+          helpers: dustHelpers
         }
       },
       customTemplateEngine: {
@@ -79,7 +85,6 @@ module.exports = function(grunt) {
           { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build_custom', ext: '.html' }
         ],
         options: {
-          partialsGlob: 'spec/pages/partials/*.html',
           templates: 'spec/templates_custom',
           templateEngine: function(content, context) {
             return "Hello, " + context.name; 
@@ -88,7 +93,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      test: ['spec/build']
+      test: ['spec/build', 'spec/dust_build']
     }
   });
   grunt.loadTasks('tasks');
@@ -98,6 +103,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'exec:jasmine']);
+  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'generator:dustjs', 'exec:jasmine']);
 
 };

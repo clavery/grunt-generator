@@ -61,6 +61,17 @@ describe('generator', function() {
     expect(test).toMatch(/ALTERNATE TEMPLATE/m);
   });
 
+  it('should support dustjs templates', function() {
+    var test = grunt.file.read(__dirname + '/dust_build/dust_test.html');
+    expect(test).toMatch(/DustJS Test Page One/m);
+    expect(test).toMatch(/This is DustJS: dust_test/m);
+  });
+
+  it('should allow custom dustjs helpers', function() {
+    var test = grunt.file.read(__dirname + '/dust_build/dust_helpers.html');
+    expect(test).toMatch(/Helper Output: test helper/m);
+  });
+
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);

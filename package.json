@@ -1,7 +1,7 @@
 {
   "name": "grunt-generator",
   "description": "Static site generator with handlebars and showdown.",
-  "version": "0.2.8",
+  "version": "0.3.0a",
   "homepage": "https://github.com/clavery/grunt-generator",
   "author": {
     "name": "Charles Lavery",
@@ -49,6 +49,7 @@
     "lodash": "*",
     "dust": "~0.3.0",
     "q": "~0.9.6",
-    "dustjs-linkedin": "~2.0.1"
+    "dustjs-linkedin": "~2.0.1",
+    "dustjs-helpers": "~1.1.1"
   }
 }

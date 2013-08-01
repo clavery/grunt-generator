@@ -22,16 +22,16 @@ Assuming the following your `Gruntfile.js`:
 
 var helpers = require('helpers');
 
-grunt.initConfig({
+grunt.initconfig({
   generator: {
     dev: {
       files: [
         { cwd: 'pages', src: ['**/*'], dest: 'build', ext: '.html' }
       ],
       options: {
-        partialsGlob: 'pages/partials/*.html',
+        partialsglob: 'pages/partials/*.html',
         templates: 'templates',
-        handlebarsHelpers: helpers,
+        handlebarshelpers: helpers,
         environment: 'dev'
       }
     }
@@ -92,27 +92,64 @@ Handlebars partials can be specified using the `partialsGlob` option. These will
 
 See the `spec/pages` and `spec/templates` directory for a complete example.
 
+### DustJS and Custom Template Engine Support
+
+As of version `0.3.0` the template engine used can be changed to DustJS or overridden with your own custom template function:
+
+#### Dust Templates
+
+DustJS templates have a number of advantages such as supporting async helpers and better access to the context in helper functions. Remember to turn off escaping of the body content in your templates: `{body|s}`.
+
+```javascript
+  generator: {
+    dev: {
+      files: [
+        { cwd: 'pages', src: ['**/*'], dest: 'build', ext: '.html' }
+      ],
+      options: {
+        templateEngine: 'dust',
+        templates: 'templates',
+        helpers: helpers,
+        environment: 'dev'
+      }
+    }
+  }
+...
+```
+
+#### Custom
+
+Custom template functions must return the rendered template as a string or a promise-like object that resolves to the rendered template (or rejects). You may also throw an exception on error. Return promise objects allows for asynchronous templating. Note that the template function will be called *twice* for each page: once for the page itself and again when it is rendered into the template. grunt-generator uses the [Q library][q] for it's promises
+
+```javascript
+  generator: {
+    dev: {
+      files: [
+        { cwd: 'pages', src: ['**/*'], dest: 'build', ext: '.html' }
+      ],
+      options: {
+        templates: 'templates',
+        helpers: helpers,
+        environment: 'dev',
+        templateEngine: function(content, context) {
+          // custom template engines must return the output as a string
+          // a promise, or throw an exception on error
+          return "Hello, " + context.name + "\n" + content;
+        }
+      }
+    }
+  }
+...
+```
+
+[q][https://github.com/kriskowal/q/]
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
 
-0.2.8 - less spammy output
-
-0.2.7 - update grunt version
-
-0.2.6 - added support for overriding template name in pages
-
-0.2.5 - added grunt and gruntConfig objects to options to allow access to grunt configuration in templates/pages
-
-0.2.2 - fix bug with partials
-
-0.2.1 - changed how page metadata is accessed
-
-0.2.0 - grunt 0.4.0 fixes and consistencies; better tests
-
-0.1.0 - Initial Release
+See CHANGELOG.md
 
 ## License
 Copyright (c) 2012 Charles Lavery  

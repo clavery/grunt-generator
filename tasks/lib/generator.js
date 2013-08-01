@@ -33,6 +33,7 @@ function processHtml(input) {
   return input; 
 }
 
+// wrap non-promises in a promise for api simplicity
 function promiseWrap(x) {
   if(x.then && typeof x.then === "function") {
     return x;    
@@ -42,14 +43,28 @@ function promiseWrap(x) {
   return deferred.promise;
 }
 
+// default template engines
 var templateEngines = {
   'handlebars': function(content, context) {
     var tmpl = Handlebars.compile(content);
     return tmpl(context);
   },
   'dust': function(content, context) {
-    var stream = dust.renderSource(content, context);
+    var d = q.defer();
 
+    try {
+      var fn = dust.compileFn(content);
+
+      var stream = fn(context, function(error, output) {
+        if(error) {
+          throw new Error(error);
+        }
+        d.resolve(output); 
+      });
+    } catch(e) {
+      d.reject(e);
+    }
+    return d.promise;
   }
 };
 
@@ -74,10 +89,18 @@ var Generator = function(grunt, options, task) {
     this.options.templateEngine = "custom";  
   }
 
-  if(this.options.handlebarsHelpers) {
-    _.forEach(this.options.handlebarsHelpers, function(helper, helperName) {
+  if(this.options.templateEngine === 'handlebars') {
+    _.extend(this.options.helpers, this.options.handlebarsHelpers);
+
+    _.forEach(this.options.helpers, function(helper, helperName) {
       Handlebars.registerHelper(helperName, helper);  
     });
+  } else if(this.options.templateEngine === 'dust') {
+    _.extend(dust.helpers, this.options.handlebarsHelpers, this.options.helpers); 
+
+    if(!this.options.compressWhitespace) {
+      dust.optimizers.format = function(ctx, node) { return node; };
+    }
   }
 
   this.options.grunt = grunt;
@@ -229,6 +252,8 @@ Generator.prototype.build = function() {
           grunt.log.ok('new: ' + filename);
           grunt.file.write(destFilename, builtPage);
         }
+      }, function(err) {
+        grunt.log.error('error: ' + filename + '\n' + err);
       });
 
       promises.push(result);

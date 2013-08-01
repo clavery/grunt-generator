@@ -24,7 +24,13 @@ module.exports = function(grunt) {
       'templateExt': 'html',
       'defaultTemplate': 'index',
       'templates': 'templates',
-      'templateEngine': 'handlebars'
+      'templateEngine': 'handlebars',
+      // deprecated; just use helpers
+      'handlebarsHelpers': {},
+      // deprecated; just use helpers
+      'dustHelpers': {},
+      'helpers': {},
+      'compressWhitespace' : false
     });
     var generator = new Generator(grunt, options, this);
     generator.build();
