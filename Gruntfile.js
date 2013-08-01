@@ -63,6 +63,28 @@ module.exports = function(grunt) {
           templates: 'spec/templates',
           handlebarsHelpers: helpers
         }
+      },
+      dustjs: {
+        files: [
+          { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build_dust', ext: '.html' }
+        ],
+        options: {
+          partialsGlob: 'spec/pages/partials/*.html',
+          templates: 'spec/templates_dust',
+          templateEngine: 'dust'
+        }
+      },
+      customTemplateEngine: {
+        files: [
+          { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build_custom', ext: '.html' }
+        ],
+        options: {
+          partialsGlob: 'spec/pages/partials/*.html',
+          templates: 'spec/templates_custom',
+          templateEngine: function(content, context) {
+            return "Hello, " + context.name; 
+          }
+        }
       }
     },
     clean: {

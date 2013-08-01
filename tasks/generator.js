@@ -23,9 +23,10 @@ module.exports = function(grunt) {
     var options = this.options({
       'templateExt': 'html',
       'defaultTemplate': 'index',
-      'templates': 'templates'
+      'templates': 'templates',
+      'templateEngine': 'handlebars'
     });
-    var generator = new Generator(grunt, options, this.files);
+    var generator = new Generator(grunt, options, this);
     generator.build();
   });
 };

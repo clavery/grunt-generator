@@ -46,6 +46,9 @@
     "showdown": "*",
     "handlebars": "*",
     "grunt": "~0.4.1",
-    "lodash": "*"
+    "lodash": "*",
+    "dust": "~0.3.0",
+    "q": "~0.9.6",
+    "dustjs-linkedin": "~2.0.1"
   }
 }
