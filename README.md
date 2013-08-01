@@ -1,6 +1,6 @@
 # grunt-generator
 
-Static site generator with handlebars and showdown.
+Static site generator for Grunt supporting Handlebars, DustJS and custom template engines and authoring pages using HTML, markdown (showdown library), etc.
 
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-generator`
