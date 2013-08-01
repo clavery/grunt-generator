@@ -36,4 +36,4 @@
 
   - Initial Release
 
-[dustjs][https://github.com/linkedin/dustjs/]
+[dustjs]: [https://github.com/linkedin/dustjs/]
