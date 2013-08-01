@@ -119,7 +119,7 @@ DustJS templates have a number of advantages such as supporting async helpers an
 
 #### Custom
 
-Custom template functions must return the rendered template as a string or a promise-like object that resolves to the rendered template (or rejects). You may also throw an exception on error. Return promise objects allows for asynchronous templating. Note that the template function will be called *twice* for each page: once for the page itself and again when it is rendered into the template. grunt-generator uses the [Q library][q] for it's promises
+Custom template functions must return the rendered template as a string or a promise-like object that resolves to the rendered template (or rejects). You may also throw an exception on error. Return a promise object if you need to perform asynchronous tasks. Note that the template function will be called *twice* for each page: once for the page itself and again when it is rendered into the template. grunt-generator uses the [Q library][q] for it's promises
 
 ```javascript
   generator: {
