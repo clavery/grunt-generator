@@ -17,6 +17,7 @@ var path = require('path');
 var _ = require('lodash');
 var dust = require('dustjs-linkedin');
 var q = require('q');
+var dustjsHelpers = require('dustjs-helpers');
 
 /*
  * Markdown Processor
