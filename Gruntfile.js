@@ -77,6 +77,7 @@ module.exports = function(grunt) {
         options: {
           templates: 'spec/dust_templates',
           templateEngine: 'dust',
+          partialsGlob: 'spec/dust_pages/partials/*.{md,html}',
           helpers: dustHelpers
         }
       },

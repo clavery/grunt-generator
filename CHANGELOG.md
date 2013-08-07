@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+  - Dustjs partials support (master templates are still used like handlebars, although the functionality could be replaced by partials).
+
 ## 0.3.0
 
   - support [Linkedin DustJS][dustjs] templates in addition to handlebars (use templateEngine option)

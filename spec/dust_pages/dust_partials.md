@@ -1,5 +1,8 @@
 {
-  "title": "DustJS Test Page One"
+  "title": "DustJS Partials"
 }
 ---
+
+{>header /}
+
 <p>This is DustJS: {page.name}</p>

@@ -72,6 +72,11 @@ describe('generator', function() {
     expect(test).toMatch(/Helper Output: test helper/m);
   });
 
+  it('should allow dustjs partials syntax', function() {
+    var test = grunt.file.read(__dirname + '/dust_build/dust_partials.html');
+    expect(test).toMatch(/This is a header partial: dust_partials/m);
+  });
+
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);

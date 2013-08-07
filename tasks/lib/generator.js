@@ -111,17 +111,22 @@ var Generator = function(grunt, options, task) {
 
 Generator.prototype.buildPartials = function() {
   if(this.options.partialsGlob &&
-     this.options.partialsGlob !== '' && 
-     this.options.templateEngine === 'handlebars') {
+     this.options.partialsGlob !== '') {
 
     var partials = grunt.file.expand(this.options.partialsGlob);
     var me = this;
     
     partials.forEach(function(v, i) {
-       var contents = grunt.file.read(v);
-       var name = path.basename(v, path.extname(v));
+      var contents = grunt.file.read(v);
+      var name = path.basename(v, path.extname(v));
 
-       Handlebars.registerPartial(name, contents);
+      if(me.options.templateEngine === 'handlebars') {
+        Handlebars.registerPartial(name, contents);
+      } else if(me.options.templateEngine === 'dust') {
+        var templateName = name;
+        var source = dust.compile(contents, templateName);
+        dust.loadSource(source);
+      }
     });
   }
 };
