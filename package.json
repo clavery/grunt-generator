@@ -1,7 +1,7 @@
 {
   "name": "grunt-generator",
   "description": "Static site generator with HTML and markdown authoring and multiple template engine support (handlebars, dustjs).",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/clavery/grunt-generator",
   "author": {
     "name": "Charles Lavery",
@@ -34,7 +34,8 @@
     "grunt-contrib-watch": "*",
     "jasmine-node": "*",
     "grunt-exec": "*",
-    "grunt-contrib-clean": "~0.4.0"
+    "grunt-contrib-clean": "~0.4.0",
+    "marked": "~0.2.10"
   },
   "keywords": [
     "grunt",

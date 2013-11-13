@@ -1,4 +1,5 @@
 var path = require('path');
+var marked = require('marked');
 
 var handlebarsHelpers = {
   'test': function(s) {
@@ -91,6 +92,19 @@ module.exports = function(grunt) {
             return "Hello, " + context.name; 
           }
         }
+      },
+      customMarkdownEngine: {
+        files: [
+          { cwd: 'spec/pages', src: ['**/*'], dest: 'spec/build_marked', ext: '.html' }
+        ],
+        options: {
+          templates: 'spec/templates',
+          helpers: handlebarsHelpers,
+          partialsGlob: 'spec/pages/partials/*.html',
+          processors: {
+            'md' : marked
+          }
+        }
       }
     },
     clean: {
@@ -104,6 +118,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'generator:dustjs', 'exec:jasmine']);
+  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'generator:dustjs', 'generator:customMarkdownEngine', 'exec:jasmine']);
 
 };

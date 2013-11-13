@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- added test for custom markdown engine (marked in the example)
+	
 ## 0.3.1
 
   - Dustjs partials support (master templates are still used like handlebars, although the functionality could be replaced by partials).

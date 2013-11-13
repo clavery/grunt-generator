@@ -4,6 +4,7 @@
 var grunt = require('grunt');
 var Generator = require('../tasks/lib/generator');
 var _ = require('lodash');
+var marked = require('marked');
 
 describe('generator', function() {
   beforeEach(function() {
@@ -77,6 +78,19 @@ describe('generator', function() {
     expect(test).toMatch(/This is a header partial: dust_partials/m);
   });
 
+  it('should allow custom markdown engines', function() {
+    var test1 = grunt.file.read(__dirname + '/build_marked/test1.html'),
+        test2 = grunt.file.read(__dirname + '/build_marked/testdir/test2.html'),
+        test3 = grunt.file.read(__dirname + '/build_marked/test3.html');
+
+    expect(test1).toMatch(/<html>/m);
+    expect(test1).toMatch(/<title>test1 title<\/title>/m);
+    expect(test1).toMatch(/<p>this is a test<\/p>/m);
+    expect(test1).toMatch(/<\/html>/m);
+
+    expect(test3).toMatch(/<title>default title<\/title>/m);
+  });
+    
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);
