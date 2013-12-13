@@ -30,7 +30,9 @@ module.exports = function(grunt) {
       // deprecated; just use helpers
       'dustHelpers': {},
       'helpers': {},
-      'compressWhitespace' : false
+      'compressWhitespace' : false,
+      'frontmatterDelimiter' : '---',
+      'frontmatterType' : 'json'
     });
     var generator = new Generator(grunt, options, this);
     generator.build();

@@ -105,10 +105,22 @@ module.exports = function(grunt) {
             'md' : marked
           }
         }
+      },
+      customFrontmatter: {
+        files: [
+          { cwd: 'spec/custom_pages', src: ['**/*'], dest: 'spec/build_custom', ext: '.html' }
+        ],
+        options: {
+          templates: 'spec/templates',
+          helpers: handlebarsHelpers,
+          partialsGlob: 'spec/pages/partials/*.html',
+          frontmatterDelimiter: '###',
+          frontmatterType: 'yaml'
+        }
       }
     },
     clean: {
-      test: ['spec/build', 'spec/dust_build']
+      test: ['spec/build', 'spec/dust_build', 'spec/build_custom', 'spec/build_marked']
     }
   });
   grunt.loadTasks('tasks');
@@ -118,6 +130,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'generator:dustjs', 'generator:customMarkdownEngine', 'exec:jasmine']);
+  grunt.registerTask('default', ['jshint', 'clean:test', 'generator:test', 'generator:dustjs', 'generator:customMarkdownEngine', 'generator:customFrontmatter', 'exec:jasmine']);
 
 };

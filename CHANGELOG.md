@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- allows custom delimiters for frontmatter
+- allows optional start delimiter for frontmatter, instead of just ending one (note: must be at start of file
+- allows YAML frontmatter parsing (at the task level right now, can't be specified per file)
+
 ## 0.3.2
 
 - added test for custom markdown engine (marked in the example)

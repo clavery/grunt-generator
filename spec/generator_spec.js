@@ -90,7 +90,26 @@ describe('generator', function() {
 
     expect(test3).toMatch(/<title>default title<\/title>/m);
   });
-    
+
+  it('should allow a start delimeter for frontmatter', function() {
+    var test1 = grunt.file.read(__dirname + '/build/start_delim.html');
+
+    expect(test1).toMatch(/<html>/m);
+    expect(test1).toMatch(/<title>test1 title<\/title>/m);
+    expect(test1).toMatch(/<p>this is a test<\/p>/m);
+    expect(test1).toMatch(/<\/html>/m);
+  });
+
+  it('should allow a custom frontmatter delimeter and type', function() {
+    var test1 = grunt.file.read(__dirname + '/build_custom/custom_delim_frontmatter.html');
+
+    expect(test1).toMatch(/<html>/m);
+    expect(test1).toMatch(/<title>custom delim and frontmatter title<\/title>/m);
+    expect(test1).toMatch(/<p>this is a test<\/p>/m);
+    expect(test1).toMatch(/<p>test first name<\/p>/m);
+    expect(test1).toMatch(/<\/html>/m);
+  });
+
   //TODO
   xit('should handle empty/no templates', function() {
     expect(false).toBe(true);

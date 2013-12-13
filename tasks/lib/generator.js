@@ -18,6 +18,7 @@ var _ = require('lodash');
 var dust = require('dustjs-linkedin');
 var q = require('q');
 var dustjsHelpers = require('dustjs-helpers');
+var yaml = require('js-yaml');
 
 /*
  * Markdown Processor
@@ -69,6 +70,15 @@ var templateEngines = {
   }
 };
 
+var frontmatterParsers = {
+  'json' : function(jsonString) {
+    return JSON.parse(jsonString);
+  },
+  'yaml' : function(yamlString) {
+    return yaml.safeLoad(yamlString);
+  }
+};
+
 /**
  * @class Generator
  */
@@ -102,6 +112,14 @@ var Generator = function(grunt, options, task) {
     if(!this.options.compressWhitespace) {
       dust.optimizers.format = function(ctx, node) { return node; };
     }
+  }
+
+  this.frontmatterRegex = new RegExp('^' + this.options.frontmatterDelimiter + '$', 'm');
+
+  try {
+    this.frontmatterParser = frontmatterParsers[this.options.frontmatterType.toLowerCase()];
+  } catch(e) {
+    grunt.log.error('bad frontmatter type: ' + this.options.frontmatterType);
   }
 
   this.options.grunt = grunt;
@@ -155,15 +173,21 @@ Generator.prototype.readPages = function() {
     }).map(function(filepath) {
       var fullpath = path.join(filespec.cwd, filepath);
       var fileContents = grunt.file.read(fullpath);
-      var parsed = fileContents.split(/^---$/m, 2);
+      var parsed = fileContents.split(me.frontmatterRegex, 3);
       var frontMatter = null;
       var extension = path.extname(filepath);
 
       var pageName = filepath.substr(0, filepath.length - extension.length);
 
       try {
-        if(parsed.length === 2) {
-          frontMatter = JSON.parse(parsed.shift());
+        if(parsed.length > 1) {
+          frontMatter = parsed.shift();
+          
+          if(frontMatter.match(/\A[\s\r\n]*\Z/mg) !== null || frontMatter.length === 0) {
+            frontMatter = parsed.shift();
+          }
+
+          frontMatter = me.frontmatterParser(frontMatter);
         }
       } catch(e) {
         grunt.log.error(filepath + ': bad frontmatter');

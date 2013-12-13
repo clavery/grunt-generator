@@ -144,6 +144,28 @@ Custom template functions must return the rendered template as a string or a pro
 ...
 ```
 
+##### Custom Frontmatter
+
+The frontmatter can be changed to use custom delimiters and also to use YAML syntax instead of JSON:
+
+```javascript
+  generator: {
+    dev: {
+      files: [
+        { cwd: 'pages', src: ['**/*'], dest: 'build', ext: '.html' }
+      ],
+      options: {
+        templates: 'templates',
+        helpers: helpers,
+        environment: 'dev',
+        frontmatterDelimiter: '###',
+        frontmatterType: 'yaml'
+      }
+    }
+  }
+...
+```
+
 [q]: [https://github.com/kriskowal/q/]
 
 ## Contributing
