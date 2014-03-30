@@ -90,10 +90,10 @@ var Generator = function(grunt, options, task) {
   this.files = task.files;
   this.task = task;
 
-  this.options.processors = _.extend({
-    'md': processMarkdown,
-    'html': processHtml
-  }, this.options.processors);
+  this.options.postProcessors = _.extend({
+    'markdown': processMarkdown,
+    'md': processMarkdown
+  }, this.options.postProcessors);
 
   if(typeof this.options.templateEngine === "function") {
     templateEngines.custom = this.options.templateEngine;
@@ -150,7 +150,6 @@ Generator.prototype.buildPartials = function() {
 };
 
 Generator.prototype.readPages = function() {
-  var validExtensions = _.keys(this.options.processors);
   var files = this.files;
   var pages = {};
   var me = this;
@@ -164,9 +163,6 @@ Generator.prototype.readPages = function() {
           grunt.file.isMatch(me.options.partialsGlob, fullpath)) {
         grunt.verbose.writeln(fullpath + " not a valid page");
         return false;
-      } else if(validExtensions.indexOf(path.extname(fullpath).substr(1)) === -1) {
-        grunt.verbose.writeln(fullpath + ': not a valid extension, skipping');
-        return false;  
       } else {
         return true;
       }
@@ -239,7 +235,13 @@ Generator.prototype.buildPage = function(page, pages) {
   var r = promiseWrap(templateEngines[this.options.templateEngine](page.body, data));
 
   return r.then(function(result) {
-    data.body = generator.options.processors[page.ext](result);
+    var processor = generator.options.postProcessors[page.ext];
+    if(processor) {
+      grunt.verbose.writeln("Using custom post-processor for extension " + page.ext);
+      data.body = processor(result);
+    } else {
+      data.body = result;
+    }
 
     var templateName = page.metadata.template ? page.metadata.template : generator.options.defaultTemplate;
 
