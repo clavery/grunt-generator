@@ -23,7 +23,7 @@ var yaml = require('js-yaml');
 /*
  * Markdown Processor
  */
-var converter = new Showdown.converter();
+var converter = new Showdown.Converter();
 function processMarkdown(input) {
   return converter.makeHtml(input);
 }
