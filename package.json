@@ -44,7 +44,7 @@
     "static"
   ],
   "dependencies": {
-    "showdown": "*",
+    "showdown": "1.0.2",
     "handlebars": "*",
     "grunt": "~0.4.1",
     "lodash": "*",
