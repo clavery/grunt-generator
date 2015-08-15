@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- use proper version of showdown
+
 ## 0.4.0
 
 - allows custom delimiters for frontmatter
