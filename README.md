@@ -29,7 +29,7 @@ grunt.initconfig({
         { cwd: 'pages', src: ['**/*'], dest: 'build', ext: '.html' }
       ],
       options: {
-        partialsglob: 'pages/partials/*.html',
+        partialsGlob: 'pages/partials/*.html',
         templates: 'templates',
         handlebarshelpers: helpers,
         environment: 'dev'
